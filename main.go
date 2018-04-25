@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"io/ioutil"
 	"log"
 	"time"
 
@@ -20,7 +21,11 @@ func (p *program) Start(s service.Service) error {
 	if service.Interactive() {
 		logger.Info("Running in terminal.")
 	} else {
-		logger.Info("Running under service manager.")
+		message := "Running under service manager."
+		logger.Info(message)
+
+		ioutil.WriteFile("file.txt", []byte(message), 0644)
+
 	}
 	p.exit = make(chan struct{})
 
