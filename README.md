@@ -5,6 +5,7 @@ Sample
 
 Build service
 ```bash
+dep ensure
 go build -o example.exe
 ```
 
@@ -13,7 +14,7 @@ Install
 install.bat
 ```
 
-UniInstall
+Uninstall
 ```
 uninstall.bat
 ```
