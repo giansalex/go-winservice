@@ -3,18 +3,18 @@ Sample
 
 ## Steps
 
-Build service
+**Build service**
 ```bash
 dep ensure
 go build -o example.exe
 ```
 
-Install
+**Install Service**
 ```
 install.bat
 ```
 
-Uninstall
+**Uninstall Service**
 ```
 uninstall.bat
 ```
