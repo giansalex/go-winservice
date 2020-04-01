@@ -6,7 +6,7 @@ if not exist example.exe (
     goto :exit
 )
 
-sc create go-svc-example binpath= "%CD%\example.exe" start= auto DisplayName= "go-svc-example"
+sc create go-svc-example binpath="%CD%\example.exe" start=auto DisplayName="go-svc-example"
 sc description go-svc-example "go-svc-example"
 sc start go-svc-example
 sc query go-svc-example
