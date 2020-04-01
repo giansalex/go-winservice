@@ -2,56 +2,10 @@ package main
 
 import (
 	"flag"
-	"io/ioutil"
 	"log"
-	"time"
 
 	"github.com/kardianos/service"
 )
-
-var logger service.Logger
-
-// Program structures.
-//  Define Start and Stop methods.
-type program struct {
-	exit chan struct{}
-}
-
-func (p *program) Start(s service.Service) error {
-	if service.Interactive() {
-		logger.Info("Running in terminal.")
-	} else {
-		message := "Running under service manager."
-		logger.Info(message)
-
-		ioutil.WriteFile("file.txt", []byte(message), 0644)
-
-	}
-	p.exit = make(chan struct{})
-
-	// Start should not block. Do the actual work async.
-	go p.run()
-	return nil
-}
-func (p *program) run() error {
-	logger.Infof("I'm running %v.", service.Platform())
-	ticker := time.NewTicker(2 * time.Second)
-	for {
-		select {
-		case tm := <-ticker.C:
-			logger.Infof("Still running at %v...", tm)
-		case <-p.exit:
-			ticker.Stop()
-			return nil
-		}
-	}
-}
-func (p *program) Stop(s service.Service) error {
-	// Any work in Stop should be quick, usually a few seconds at most.
-	logger.Info("I'm Stopping!")
-	close(p.exit)
-	return nil
-}
 
 // Service setup.
 //   Define service config.
@@ -62,11 +16,15 @@ func (p *program) Stop(s service.Service) error {
 func main() {
 	svcFlag := flag.String("service", "", "Control the system service.")
 	flag.Parse()
+	options := make(service.KeyValue)
+	options["Restart"] = "on-success"
+	options["SuccessExitStatus"] = "1 2 8 SIGKILL"
 
 	svcConfig := &service.Config{
 		Name:        "GoServiceExampleLogging",
 		DisplayName: "Go Service Example for Logging",
 		Description: "This is an example Go service that outputs log messages.",
+		Option:      options,
 	}
 
 	prg := &program{}
@@ -75,10 +33,11 @@ func main() {
 		log.Fatal(err)
 	}
 	errs := make(chan error, 5)
-	logger, err = s.Logger(errs)
+	logger, err := s.Logger(errs)
 	if err != nil {
 		log.Fatal(err)
 	}
+	prg.logger = logger
 
 	go func() {
 		for {
