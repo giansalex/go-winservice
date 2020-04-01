@@ -3,31 +3,29 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/kardianos/osext"
-  packages = ["."]
-  revision = "ae77be60afb1dcacde03767a8c37337fad28ac14"
-
-[[projects]]
-  branch = "master"
+  digest = "1:6d74d792d65ec3879f69e47ef6833e5cd46eacbdc1ed4b94159ce2bb21956b86"
   name = "github.com/kardianos/service"
   packages = ["."]
-  revision = "615a14ed75099c9eaac6949e22ac2341bf9d3197"
+  pruneopts = "UT"
+  revision = "3c356ae54c8afa8b1010fc2d10eab6c22591c7c6"
 
 [[projects]]
   branch = "master"
+  digest = "1:23a09f37af3b097a53692f03beab6529fb3e4f24ee455f349675cb0dcc603a80"
   name = "golang.org/x/sys"
   packages = [
     "windows",
     "windows/registry",
     "windows/svc",
     "windows/svc/eventlog",
-    "windows/svc/mgr"
+    "windows/svc/mgr",
   ]
-  revision = "bb9c189858d91f42db229b04d45a4c3d23a7662a"
+  pruneopts = "UT"
+  revision = "c3d80250170dec19bf61949c81233cede5ddaf61"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c7ffbfc7e42b99a617ee8a125b35f4b27d24d52af218fc945612cea3c473eff9"
+  input-imports = ["github.com/kardianos/service"]
   solver-name = "gps-cdcl"
   solver-version = 1
